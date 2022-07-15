@@ -1,0 +1,68 @@
+﻿@model List<User>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Medarbejder liste</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="User" asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus"></i>&nbsp; Opret ny medarbejder
+            </a>
+        </div>
+    </div><br />
+
+
+<table  class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                 Navn
+            </th>
+            <th>
+                 Fødselsdag
+            </th>
+            <th>
+                 Jobtitle
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            @if (obj.Employed)
+            {
+                <tr>
+                    <td>
+                    @obj.Name
+                </td>
+                <td>
+                    @obj.Age
+                </td>
+                <td>
+                    @obj.Title
+                </td>
+                <td>
+                     <a asp-controller="User" asp-action="Edit" asp-route-id="@obj.Id"
+                     class="btn btn-primary mx-2">
+                     <i class="bi bi-pencil-fill">&nbsp;Ret</i>
+                     </a>
+                     <a asp-controller="User" asp-action="Delete" asp-route-id="@obj.Id"
+                     class="btn btn-primary mx-2">
+                     <i class="bi bi-trash-fill">&nbsp;Slet</i>
+                 </a>
+                </td>
+            </tr>
+            }
+        }
+
+    </tbody>
+</table>
+</div>

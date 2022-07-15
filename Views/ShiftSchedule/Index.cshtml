@@ -1,0 +1,110 @@
+﻿@model Shifts
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Tildel Vagt</h2>
+        </div>
+    </div><br />
+
+
+<table  class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Medarbejder Navn
+            </th>
+            <th>
+                Medarbejder Fødselsdag
+            </th>
+            <th>
+                Medarbejder Alder
+            </th>
+            <th>
+                Tildel vagt
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+                @foreach (User  user in Model.users)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.Age</td>
+                        <td>@(DateTime.Now.Year - @user.Age.Year)</td>
+                        <td>            
+                            <a asp-controller="ShiftSchedule" asp-action="AssignTask" asp-route-id=@user.Id asp-route-selectedValue=@null class="btn btn-primary">
+                            <i class="bi bi-plus"></i>&nbsp; Tildel vagt
+                            </a>
+                        </td>
+                    </tr>
+                }
+    </tbody>
+</table><br />
+
+<h2 class="text-primary">Vagt Skema</h2>
+<table  class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Vagt Start
+            </th>
+            <th>
+                Vagt Slut
+            </th>
+            <th>
+                Opgave Titel
+            </th>
+            <th>
+                Medarbejder Navn
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        
+                @foreach (Dutyschedule  duty in Model.dutyschedules)
+                {
+                    <tr>
+                        @foreach (User user in Model.users)
+                        {
+                        @if (@user.Id == @duty.UserId)
+                        {
+                            if (duty.TaskIds >= 1)
+                            {
+                                @foreach (@TaskManager.Models.Task task in Model.tasks)
+                                {
+                                    @if (@task.Id == @duty.TaskIds)
+                                    {
+
+                                        <td>@duty.ShiftStart</td>
+                                        <td>@duty.ShiftEnd</td>
+                                        <td>@task.Title</td>  
+                                        <td>@user.Name</td>
+                                        <td>
+                                            <a asp-controller="ShiftSchedule" asp-action="Delete" asp-route-id="@duty.Id"
+                                                     class="btn btn-primary mx-2">
+                                                <i class="bi bi-trash-fill">&nbsp;Slet vagt</i>
+                                            </a>
+                                        </td>
+                                    }
+                                }
+                            }
+                            
+                        }
+                    }
+                    </tr>
+                    
+                }
+        
+    </tbody>
+</table>
+</div>
+
+

@@ -1,0 +1,56 @@
+﻿@model TaskManager.Models.CreateShift
+
+@{
+    ViewData["Title"] = "AssignTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="mt-2">Tildel Vagt</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+            <form asp-controller="ShiftSchedule" asp-action="AssignTask" method="post">
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="mb-3">
+                    <label hidden="hidden" asp-for="userId"></label>
+                    <input value="@Model.userId" hidden="hidden" asp-for="userId"  class="form-control" /> 
+                </div>
+                 <div class="form-group">
+                    <label asp-for="ShiftStart" class="control-label">Vagt start</label>
+                    <input value="@DateTime.Now" asp-for="ShiftStart" class="form-control" />
+                    <span asp-validation-for="ShiftStart" class="text-danger"></span>
+                 </div>
+                 <div class="form-group mt-4">
+                    <label asp-for="ShiftEnd" class="control-label">Vagt slut</label>
+                    <input value="@DateTime.Now.AddHours(8)" asp-for="ShiftEnd" class="form-control" />
+                    <span asp-validation-for="ShiftEnd" class="text-danger"></span>
+                 </div>
+                 <div class="row pt-4">
+                     <div class="form-group">
+                        <label>Vælg opgave(r)</label>
+                        @Html.ListBoxFor(m=>m.selectedTaskIds,Model.tasks, new {
+                            @class = "listbox",
+                            @style="width:100%"
+                        })
+                        <span asp-validation-for="selectedTaskIds"  class="text-danger"></span>
+                    </div>       
+        <div class="row pt-4">
+                    <div class="text-start col-6">
+                        <a asp-action="Index" class="btn btn-secondary">Tilbage</a>
+                    </div>
+
+                    <div class="text-end col-6">
+                            <input type="submit" value="Opret" class="btn btn-primary" />
+                    </div>
+        </div>
+                </div>
+            </form>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

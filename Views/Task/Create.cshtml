@@ -1,0 +1,30 @@
+﻿@model TaskManager.Models.Task
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Opret opgave</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="mb-3">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="RequiredAge">Minimums alder</label>
+            <input asp-for="RequiredAge" class="form-control" />
+            <span asp-validation-for="RequiredAge" class="text-danger"></span>
+        </div>
+        <div class="row pt-4">
+        <div class="col-6 text-start"><a asp-controller="Task" asp-action="Index" class="btn btn-secondary" style="width:150px;">Tilbage</a></div>
+        <div class="col-6 text-end"><button type="submit" class="btn btn-primary" style="width:150px;">Opret</button></div>
+        </div>
+    </div>
+</form>
